@@ -1,0 +1,87 @@
+﻿mandel : Encore un autre générateur de fractales... !
+
+-------------------------------------------------------------------------------
+
+Fonctionnalités :
+- Calcul de l'ensemble de Mandelbrot ou de Julia
+- Exploration interactive
+- Possibilité de générer des photos / vidéos (séries de photos)
+
+-------------------------------------------------------------------------------
+
+Caractéristiques :
+- Simple
+- Parallélisé
+- Paramétrable
+- Portable
+
+-------------------------------------------------------------------------------
+
+Technologies :
+- Utilisation de la SDL pour l'affichage et l'interaction
+- Utilisation de pthreads pour la parallélisation
+
+-------------------------------------------------------------------------------
+
+Options - option arguments (valeurs par defaut) : description
+          conditions
+
+-d width height (800, 600) : fixer la taille de fenêtre / image
+	width, height : entiers >= 128 
+
+-b xmin xmax ymin ymax (-2.0, 2.0, -1.5, 1.5): fixer les bornes de l'espace à calculer
+	xmin, xmax, ymin, ymax : reels
+
+-i real im (0.0, 0.0) : fixer l'initialisateur - c (Julia) ou z0 (Mandelbrot)
+	real, im : reels
+
+-f : lancer l'application en mode plein écran
+
+-t n (2) : fixer le nombre de threads à utiliser pour le rendu
+	n : entier >= 1
+
+-n i (32) : fixer le nombre d'itérations max par point
+	i : entier >= 4
+
+-j : générer l'ensemble de julia
+
+-p : création d'un fichier .bmp contenant le rendu
+
+--picture-name str ("mandel") : préciser un nom de fichier pour les images
+	str : chaine de caracteres sans .bmp (exemple : "image")
+
+-c zoom n : mode capture, génération de n images avec une vitesse de zoom donnée
+	zoom : réel > 0 ; n : entier >= 1
+Concernant la génération de vidéo, un script (gen_video pour linux) est fourni 
+pour créer une vidéo directement à l'aide de ffmpeg. L'espace de départ du zoom 
+est précisé par l'option -b.
+
+NOTE : - Les options capture et photo sont incompatibles.
+       - L'utilisation de l'option "-f" en mode capture ou photo est ignorée.
+       - Tous les modes utilisent les paramètres donnés (bornes, init,...)
+
+-------------------------------------------------------------------------------
+
+Contrôles interface en mode interactif :
+---- Mandelbrot - Controles ----
+Haut, Bas, Gauche, Droite : déplacer la vue
+r   : reinitialiser la vue
+f   : changer couleurs courantes de la fractale
+t/g : zoomer/dezoomer
+y/h : augmenter/réduire(*/1.5) le nombre d'itérations par point
+u/j : augmenter/diminuer (+-0.02) la partie réelle de init (c ou z0)
+i/k : augmenter/diminuer (+-0.02) la partie imaginaire de init (c ou z0)
+p : afficher les paramètres courants de l'image : 
+    * Bornes de l'espace affiché : xmin xmax ymin ymax 
+    * Init - c (Julia) ou z0 (Mandelbrot) : partie reelle, imaginaire
+    * Nombre d'itérations max par point - nbMaxIt
+    * Nom de l'ensemble : Julia ou Mandelbrot
+    La ligne supplémentaire affichée permet de generer une photo
+    Il est possible d'ajouter une largeur / hauteur
+Espace : Alterner entre l'espace de Mandelbrot et de Julia
+Echap : quitter le programme
+
+-------------------------------------------------------------------------------
+
+Un Makefile est fourni pour la compilation 
+(SDL + pthread nécessaire (sous linux comme sous windows (MinGW))
